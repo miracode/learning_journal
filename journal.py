@@ -4,6 +4,7 @@ import os
 import psycopg2
 from contextlib import closing
 from flask import g
+from flask import render_template
 import datetime
 
 DB_SCHEMA = """
@@ -18,7 +19,7 @@ CREATE TABLE entries (
 DB_ENTRY_INSERT = """
 INSERT INTO ENTRIES (title, text, created) VALUES (%s, %s, %s)
 """
-DB_ENTRIES_LIST="""
+DB_ENTRIES_LIST = """
 SELECT id, title, text, created FROM entries ORDER BY created DESC
 """
 
@@ -80,9 +81,11 @@ def get_all_entries():
     keys = ('id', 'title', 'text', 'created')
     return [dict(zip(keys, row)) for row in cur.fetchall()]
 
+
 @app.route('/')
-def hello():
-    return u'Hello world!'
+def show_entries():
+    entries = get_all_entries()
+    return render_template('list_entries.html', entries=entries)
 
 if __name__ == '__main__':
     app.run(debug=True)
