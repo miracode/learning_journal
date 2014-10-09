@@ -3,6 +3,7 @@ from flask import Flask
 import os
 import psycopg2
 from contextlib import closing
+from flask import g
 
 DB_SCHEMA = """
 DROP TABLE IF EXISTS entries;
@@ -18,9 +19,11 @@ app = Flask(__name__)
 app.config['DATABASE'] = os.environ.get(
     'DATABASE_URL', 'dbname=learning_journal user=Michelle')
 
+
 def connect_db():
     """Return a connection to the configured database"""
     return psycopg2.connect(app.config['DATABASE'])
+
 
 def init_db():
     """Initializing the database using DB_SCHEMA
@@ -30,6 +33,28 @@ def init_db():
     with closing(connect_db()) as db:
         db.cursor().execute(DB_SCHEMA)
         db.commit()
+
+
+def get_database_connection():
+    db = getattr(g, 'db', None)
+    if db is None:
+        g.db = db = connect_db()
+    return db
+
+
+@app.teardown_request
+def teardown_request(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        if exception and isinstance(exception, psycopg2.Error):
+            # if there was a problem with thte database, rollback any
+            # existing transaction
+            db.rollback()
+        else:
+            # otherwise, commit
+            db.commit()
+        db.close()
+
 
 @app.route('/')
 def hello():
