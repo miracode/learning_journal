@@ -58,3 +58,22 @@ def test_write_entry(req_context):
     assert len(rows) == 1
     for val in expected:
         assert val in rows[0]
+
+
+def test_get_all_entries_empty(req_context):
+    from journal import get_all_entries
+    entries = get_all_entries()
+    assert len(entries) == 0
+
+
+def test_get_all_entries(req_context):
+    from journal import get_all_entries, write_entry
+    expected = ("My Title", "My Text")
+    write_entry(*expected)
+    entries = get_all_entries()
+    assert len(entries) == 1
+    for entry in entries:
+        assert expected[0] == entry['title']
+        assert expected[1] == entry['text']
+        assert 'created' in entry
+
