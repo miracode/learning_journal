@@ -11,6 +11,7 @@ from flask import url_for
 from flask import redirect
 from flask import session
 import datetime
+from passlib.hash import pbkdf2_sha256
 
 DB_SCHEMA = """
 DROP TABLE IF EXISTS entries;
@@ -34,7 +35,7 @@ app.config['DATABASE'] = os.environ.get(
 app.config['ADMIN_USERNAME'] = os.environ.get(
     'ADMIN_USERNAME', 'admin')
 app.config['ADMIN_PASSWORD'] = os.environ.get(
-    'ADMIN_PASSWORD', 'admin')
+    'ADMIN_PASSWORD', pbkdf2_sha256.encrypt('admin'))
 app.config['SECRET_KEY'] = os.environ.get(
     'FLASK_SECRET_KEY', 'sooperseekritvaluenooneshouldknow')
 
@@ -96,7 +97,7 @@ def get_all_entries():
 def do_login(username='', passwd=''):
     if username != app.config['ADMIN_USERNAME']:
         raise ValueError
-    if passwd != app.config['ADMIN_PASSWORD']:
+    if not pbkdf2_sha256.verify(passwd, app.config['ADMIN_PASSWORD']):
         raise ValueError
     session['logged_in'] = True
 
