@@ -117,5 +117,19 @@ def add_entry():
         abort(500)
     return redirect(url_for('show_entries'))
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        try:
+            do_login(request.form['username'].encode('utf-8'),
+                     request.form['password'].encode('utf-8'))
+        except ValueError:
+            error = "Login Failed"
+        else:
+            return redirect(url_for('show_entries'))
+    return render_template('login.html', error=error)
+
 if __name__ == '__main__':
     app.run(debug=True)

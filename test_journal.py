@@ -9,7 +9,7 @@ from journal import init_db
 from flask import session
 
 TEST_DSN = 'dbname=test_learning_journal user=Michelle'
-
+SUBMIT_BTN = '<input type="submit" value="Share" name="Share"/>'
 
 def clear_db():
     with closing(connect_db()) as db:
@@ -148,3 +148,30 @@ def test_do_login_bad_username(req_context):
     from journal import do_login
     with pytest.raises(ValueError):
         do_login(bad_username, password)
+
+
+def login_helper(username, password):
+    login_data = {
+        'username': username, 'password': password
+    }
+    client = app.test_client()
+    return client.post(
+        '/login', data=login_data, follow_redirects=True)
+
+
+def test_start_as_anonymous(db):
+    client = app.test_client()
+    anon_home = client.get('/').data
+    assert SUBMIT_BTN not in anon_home
+
+
+def test_login_success(db):
+    username, password = ('admin', 'admin')
+    response = login_helper(username, password)
+    assert SUBMIT_BTN in response.data
+
+
+def test_login_fails(db):
+    username, password = ('admin', 'wrong')
+    response = login_helper(username, password)
+    assert 'Login Failed' in response.data
