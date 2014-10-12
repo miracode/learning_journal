@@ -9,6 +9,7 @@ from flask import abort
 from flask import request
 from flask import url_for
 from flask import redirect
+from flask import session
 import datetime
 
 DB_SCHEMA = """
@@ -30,6 +31,12 @@ SELECT id, title, text, created FROM entries ORDER BY created DESC
 app = Flask(__name__)
 app.config['DATABASE'] = os.environ.get(
     'DATABASE_URL', 'dbname=learning_journal user=Michelle')
+app.config['ADMIN_USERNAME'] = os.environ.get(
+    'ADMIN_USERNAME', 'admin')
+app.config['ADMIN_PASSWORD'] = os.environ.get(
+    'ADMIN_PASSWORD', 'admin')
+app.config['SECRET_KEY'] = os.environ.get(
+    'FLASK_SECRET_KEY', 'sooperseekritvaluenooneshouldknow')
 
 
 def connect_db():
@@ -84,6 +91,14 @@ def get_all_entries():
     cur.execute(DB_ENTRIES_LIST)
     keys = ('id', 'title', 'text', 'created')
     return [dict(zip(keys, row)) for row in cur.fetchall()]
+
+
+def do_login(username='', passwd=''):
+    if username != app.config['ADMIN_USERNAME']:
+        raise ValueError
+    if passwd != app.config['ADMIN_PASSWORD']:
+        raise ValueError
+    session['logged_in'] = True
 
 
 @app.route('/')
