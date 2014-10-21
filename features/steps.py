@@ -49,7 +49,7 @@ def create_entry(step):
     with app.test_request_context('/'):
         entry = ("My Title", "My Text")
         write_entry(*entry)
-    lettuce.world.entry_id = lettuce.world.client.
+    #lettuce.world.entry_id = lettuce.world.client.
 
 
 @lettuce.step('I do not see the edit button')
