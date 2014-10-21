@@ -43,12 +43,13 @@ def request_homepage(step):
         home_url = url_for('show_entries')
     lettuce.world.response = lettuce.world.client.get(home_url)
 
-# TODO need to add an entry to test the edit button
+
 @lettuce.step('an entry exists')
 def create_entry(step):
     with app.test_request_context('/'):
         entry = ("My Title", "My Text")
         write_entry(*entry)
+    lettuce.world.entry_id = lettuce.world.client.
 
 
 @lettuce.step('I do not see the edit button')
@@ -82,7 +83,7 @@ def edit_entry(step):
         'text': lettuce.world.text
     }
     lettuce.world.response = lettuce.world.client.post(
-        '/edit', data=entry_data, follow_redirects=False
+        '/edit/<int:id>', data=entry_data, follow_redirects=False
     )
 
 

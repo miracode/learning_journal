@@ -22,8 +22,7 @@ Feature: Enable editing for Learning Journal
 
     Scenario: Logged in user can submit edited form
         Given an authenticated user
-        And the title "Edited Post"
-        And the text "This is an edited post"
+        And an entry exists
         When I submit the edited form
         Then I am redirected to the home page
         And I see the edited entry

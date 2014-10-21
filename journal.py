@@ -28,13 +28,15 @@ INSERT INTO ENTRIES (title, text, created) VALUES (%s, %s, %s)
 DB_ENTRIES_LIST = """
 SELECT id, title, text, created FROM entries ORDER BY created DESC
 """
-DB_ENTRY_EDIT = """
+DB_ENTRY_OVERWRITE = """
 EDIT ENTRIES
-SET text = %s
-WHERE title = %s
+SET title = %s,
+    text = %s
+WHERE id = %s
 """
-# This might be good for duplicate titles:
-# AND created = %s
+DB_ENTRY_ONE = """
+SELECT id, title, text FROM entries WHERE id = %s
+"""
 
 app = Flask(__name__)
 app.config['DATABASE'] = os.environ.get(
@@ -92,10 +94,10 @@ def write_entry(title, text):
     cur.execute(DB_ENTRY_INSERT, [title, text, now])
 
 
-def rewrite_entry(title, text):
+def rewrite_entry(title, text, id):
     con = get_database_connection()
     cur = con.cursor()
-    cur.execute(DB_ENTRY_EDIT, [text, title])
+    cur.execute(DB_ENTRY_OVERWRITE, [title, text, id])
 
 
 #def do_edit(title):
@@ -110,6 +112,13 @@ def get_all_entries():
     cur.execute(DB_ENTRIES_LIST)
     keys = ('id', 'title', 'text', 'created')
     return [dict(zip(keys, row)) for row in cur.fetchall()]
+
+
+def get_one_entry(id):
+    """return one entry"""
+    con = get_database_connection()
+    cur = con.cursor()
+    cur.execute(DB_ENTRY_ONE)
 
 
 def do_login(username='', passwd=''):
@@ -136,8 +145,8 @@ def add_entry():
     return redirect(url_for('show_entries'))
 
 
-@app.route('/edit', methods=['POST'])
-def edit_entry():
+@app.route('/edit/<int:id>', methods=['POST'])
+def edit_entry(id):
     try:
         rewrite_entry(request.form['title'], request.form['text'])
     except psycopg2.Error:
