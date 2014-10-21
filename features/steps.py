@@ -50,6 +50,13 @@ def no_edit_button(step):
     assert 'class="edit_button"' not in body, msg % body
 
 
+@lettuce.step('I see the edit button')
+def yes_edit_button(step):
+    body = lettuce.world.response.data
+    msg = "found edit_button in %s"
+    assert 'class="edit_button"' in body, msg % body
+
+
 @lettuce.step('the title "([^"]*)"')
 def title_input(step, title):
     lettuce.world.title = title

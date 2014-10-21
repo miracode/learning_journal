@@ -8,7 +8,7 @@ Feature: Enable editing for Learning Journal
     Scenario: Logged in user can see edit button
         Given an authenticated user
         When I view the home page
-        Then I see an edit button for an entry
+        Then I see the edit button for an entry
 
     Scenario: Anonymous user cannot submit edited form
         Given an anonymous user
