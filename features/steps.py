@@ -3,6 +3,7 @@ import lettuce
 from flask import url_for
 from journal import app
 from journal import init_db
+from journal import write_entry
 from test_journal import clear_db
 from test_journal import TEST_DSN
 
@@ -42,6 +43,13 @@ def request_homepage(step):
         home_url = url_for('show_entries')
     lettuce.world.response = lettuce.world.client.get(home_url)
 
+# TODO need to add an entry to test the edit button
+#@lettuce.step('an entry exists')
+#def create_entry(step):
+#    with app.test
+#        entry = ("My Title", "My Text")
+#        write_entry(*entry)
+
 
 @lettuce.step('I do not see the edit button')
 def no_edit_button(step):
@@ -53,7 +61,7 @@ def no_edit_button(step):
 @lettuce.step('I see the edit button')
 def yes_edit_button(step):
     body = lettuce.world.response.data
-    msg = "found edit_button in %s"
+    msg = "dit not find 'edit_button' in %s"
     assert 'class="edit_button"' in body, msg % body
 
 
@@ -74,7 +82,7 @@ def edit_entry(step):
         'text': lettuce.world.text
     }
     lettuce.world.response = lettuce.world.client.post(
-        '/add', data=entry_data, follow_redirects=False
+        '/edit', data=entry_data, follow_redirects=False
     )
 
 

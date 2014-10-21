@@ -2,11 +2,13 @@ Feature: Enable editing for Learning Journal
 
     Scenario: Anonymous user cannot see edit button
         Given an anonymous user
+        And en entry exists
         When I view the home page
         Then I do not see the edit button for an entry
 
     Scenario: Logged in user can see edit button
         Given an authenticated user
+        And an entry exists
         When I view the home page
         Then I see the edit button for an entry
 
