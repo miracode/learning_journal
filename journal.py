@@ -116,9 +116,8 @@ def get_one_entry(id):
     con = get_database_connection()
     cur = con.cursor()
     cur.execute(DB_ENTRY_ONE)
-    #keys = ('title', 'text')
-    x = cur.fetchall()
-    return x
+    keys = ('title', 'text')
+    return dict(zip(keys, cur.fetchall()[0]))
 
 
 def do_login(username='', passwd=''):
@@ -147,10 +146,15 @@ def add_entry():
 
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_entry(id):
-    #do_edit(id)
-    #if request.method == 'GET':
     entries = get_all_entries()
-    return render_template('list_entries.html', entries=entries, is_edit=True, edit_id=id)
+    title = "No Title"
+    text = "No Text"
+    for entry in entries:
+        if entry['id'] == id:
+            title = entry.title
+            text = entry.text
+    return render_template('list_entries.html', entries=entries, is_edit=True,
+                           edit_id=id, edit_title=title, edit_text=text)
     #return redirect(url_for('show_entries'))
     #try:
     #    title, text = get_one_entry(id)
