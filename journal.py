@@ -154,8 +154,9 @@ def add_entry():
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_entry(id):
     #do_edit
+    #if request.method == 'GET':
     entries = get_all_entries()
-    render_template('list_entries.html', entries=entries)
+    return render_template('list_entries.html', entries=entries)
     #return redirect(url_for('show_entries'))
     #try:
     #    title, text = get_one_entry(id)
