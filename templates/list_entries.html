@@ -3,17 +3,17 @@
 {% if session.logged_in %}
     <aside>
     {% if is_edit %}
-    <form action="{{ url_for('edit_entry', id=edit_id) }}" method="POST" class="edit_entry">
+    <form action="{{ url_for('submit_edit', id=edit_id) }}" method="POST" class="edit_entry">
       <div class="field">
-        <label for="title">Title</label>
+        <label for="title">Edit Title</label>
         <input type="text" size="30" name="title" id="title" value="{{ edit_title }}">
       </div>
       <div class="field">
-        <label for="text">Text</label>
+        <label for="text">Edit Text</label>
         <textarea name="text" id="text" rows="5" cols="80">{{ edit_text }}</textarea>
       </div>
       <div class="control_row">
-        <input type="submit" value="Share" name="Share"/>
+        <input type="submit" value="Save" name="Save"/>
       </div>
     </form>
     {% else %}
