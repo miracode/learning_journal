@@ -35,7 +35,15 @@
 {% endif %}
     <h2>Entries</h2>
     {% for entry in entries %}
+    {% if is_edit %}
+      {% if edit_id|int == entry.id|int %}
+    <article class="entry" id="entry={{entry.id}}" style="color: mediumblue">
+      {% else %}
+    <article class="entry" id="entry={{entry.id}}" style="color: lightslategray">
+      {% endif %}
+    {% else %}
     <article class="entry" id="entry={{entry.id}}">
+    {% endif %}
         <h3>{{ entry.title }}</h3>
         <p class="dateline">{{ entry.created.strftime('%b. %d, %Y') }}
         <div class="entry_body">

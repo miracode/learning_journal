@@ -34,9 +34,6 @@ SET title = %s,
     text = %s
 WHERE id = %s
 """
-DB_ENTRY_ONE = """
-SELECT title, text FROM entries WHERE id = %s
-"""
 
 app = Flask(__name__)
 app.config['DATABASE'] = os.environ.get(
@@ -109,15 +106,6 @@ def get_all_entries():
     cur.execute(DB_ENTRIES_LIST)
     keys = ('id', 'title', 'text', 'created')
     return [dict(zip(keys, row)) for row in cur.fetchall()]
-
-
-def get_one_entry(id):
-    """return one entry"""
-    con = get_database_connection()
-    cur = con.cursor()
-    cur.execute(DB_ENTRY_ONE)
-    keys = ('title', 'text')
-    return dict(zip(keys, cur.fetchall()[0]))
 
 
 def do_login(username='', passwd=''):
