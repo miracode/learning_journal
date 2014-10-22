@@ -150,9 +150,9 @@ def edit_entry(id):
     title = "No Title"
     text = "No Text"
     for entry in entries:
-        if entry['id'] == id:
-            title = entry.title
-            text = entry.text
+        if entry['id'] == int(id):
+            title = entry['title']
+            text = entry['text']
     return render_template('list_entries.html', entries=entries, is_edit=True,
                            edit_id=id, edit_title=title, edit_text=text)
     #return redirect(url_for('show_entries'))
