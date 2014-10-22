@@ -129,12 +129,6 @@ def do_login(username='', passwd=''):
     session['logged_in'] = True
 
 
-def do_edit(id):
-    #if id not in [entry['id'] for entry in get_all_entries()]:
-    #    raise IndexError
-    is_edit = True
-
-
 @app.route('/')
 def show_entries():
     entries = get_all_entries()
@@ -153,10 +147,10 @@ def add_entry():
 
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_entry(id):
-    #do_edit
+    #do_edit(id)
     #if request.method == 'GET':
     entries = get_all_entries()
-    return render_template('list_entries.html', entries=entries)
+    return render_template('list_entries.html', entries=entries, is_edit=True, edit_id=id)
     #return redirect(url_for('show_entries'))
     #try:
     #    title, text = get_one_entry(id)
