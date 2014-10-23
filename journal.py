@@ -12,7 +12,7 @@ from flask import redirect
 from flask import session
 import datetime
 import markdown
-import pygments
+#import pygments
 from passlib.hash import pbkdf2_sha256
 
 DB_SCHEMA = """
@@ -124,7 +124,18 @@ def show_entries():
     for entry in entries:
         entry['text'] = markdown.markdown(entry['text'],
                                           extensions=['codehilite'])
-    return render_template('list_entries.html', entries=entries)
+    shebang = "    #!/usr/bin/python\n        def main():\n            \
+    return x"
+    shebang_hl = markdown.markdown(shebang, extensions=['codehilite'])
+    shebang2 = "    #!python\n        def main():\n            \
+    return x"
+    shebang_wo = markdown.markdown(shebang2, extensions=['codehilite'])
+    colons = "    :::python\n        def main():\n            \
+    return x"
+    colons_hl = markdown.markdown(colons, extensions=['codehilite'])
+    return render_template('list_entries.html', entries=entries,
+                           shebang_hl=shebang_hl, shebang_wo=shebang_wo,
+                           colons_hl=colons_hl)
 
 
 @app.route('/add', methods=['POST'])

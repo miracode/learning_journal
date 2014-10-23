@@ -30,7 +30,24 @@
       </div>
     {% endif %}
     </form>
-    <p>* This form accepts <a href="http://daringfireball.net/projects/markdown/">Markdown</a> syntax rules</p>
+    <p>* This form accepts <a href="http://daringfireball.net/projects/markdown/">Markdown</a> syntax rules </br>
+      To highlight Python code, follow the <a href="https://pythonhosted.org/Markdown/extensions/code_hilite.html">
+      CodeHilite</a> syntax.  The rules are summarized below, using ∙ as 1 space.</br></br>
+      <b>SheBang with path</b></br>
+      ∙∙∙∙#!/usr/bin/python</br>
+      ∙∙∙∙∙∙∙∙def main():</br>
+      ∙∙∙∙∙∙∙∙∙∙∙∙return x"</br>
+      {{shebang_hl|safe}}
+      <p><b>SheBang without path</b></br>
+      ∙∙∙∙#!python</br>
+      ∙∙∙∙∙∙∙∙def main():</br>
+      ∙∙∙∙∙∙∙∙∙∙∙∙return x"</br>
+      {{shebang_wo|safe}}
+      <p><b>Colons</b></br>
+      ∙∙∙∙:::python</br>
+      ∙∙∙∙∙∙∙∙def main():</br>
+      ∙∙∙∙∙∙∙∙∙∙∙∙return x"</br>
+      {{colons_hl|safe}}
     </aside>
 {% endif %}
     <h2>Entries</h2>
