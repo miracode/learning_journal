@@ -12,6 +12,7 @@ from flask import redirect
 from flask import session
 import datetime
 import markdown
+import pygments
 from passlib.hash import pbkdf2_sha256
 
 DB_SCHEMA = """
@@ -121,7 +122,8 @@ def do_login(username='', passwd=''):
 def show_entries():
     entries = get_all_entries()
     for entry in entries:
-        entry['text'] = markdown.markdown(entry['text'])
+        entry['text'] = markdown.markdown(entry['text'],
+                                          extensions=['codehilite'])
     return render_template('list_entries.html', entries=entries)
 
 
