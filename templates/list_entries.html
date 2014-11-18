@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 {% if session.logged_in %}
-    <aside>
+    <div>
     {% if is_edit %}
     <form action="{{ url_for('submit_edit', id=edit_id) }}" method="POST" class="edit_entry">
       <div class="field">
@@ -33,22 +33,39 @@
     <p>* This form accepts <a href="http://daringfireball.net/projects/markdown/">Markdown</a> syntax rules </br>
       To highlight Python code, follow the <a href="https://pythonhosted.org/Markdown/extensions/code_hilite.html">
       CodeHilite</a> syntax.  The rules are summarized below, using ∙ as 1 space.</br></br>
-      <b>SheBang with path</b></br>
-      ∙∙∙∙#!/usr/bin/python</br>
-      ∙∙∙∙def main():</br>
-      ∙∙∙∙∙∙∙∙return x"</br>
-      {{shebang_hl|safe}}
-      <p><b>SheBang without path</b></br>
-      ∙∙∙∙#!python</br>
-      ∙∙∙∙def main():</br>
-      ∙∙∙∙∙∙∙∙return x"</br>
-      {{shebang_wo|safe}}
-      <p><b>Colons</b></br>
-      ∙∙∙∙:::python</br>
-      ∙∙∙∙def main():</br>
-      ∙∙∙∙∙∙∙∙return x"</br>
-      {{colons_hl|safe}}
-    </aside>
+      <table>
+        <tr>
+          <td>Syntax</td>
+          <td>Output</td>
+        <tr>
+          <td>
+            <b>SheBang with path</b></br>
+            ∙∙∙∙#!/usr/bin/python</br>
+            ∙∙∙∙def main():</br>
+            ∙∙∙∙∙∙∙∙return x"</br>
+          </td>
+          <td> {{shebang_hl|safe}} </td>
+        </tr>
+        <tr>
+          <td>
+            <p><b>SheBang without path</b></br>
+            ∙∙∙∙#!python</br>
+            ∙∙∙∙def main():</br>
+            ∙∙∙∙∙∙∙∙return x"</br>
+          </td>
+          <td>{{shebang_wo|safe}}</td>
+        </tr>
+        <tr>
+          <td>
+            <p><b>Colons</b></br>
+            ∙∙∙∙:::python</br>
+            ∙∙∙∙def main():</br>
+            ∙∙∙∙∙∙∙∙return x"</br>
+          </td>
+          <td>{{colons_hl|safe}}</td>
+        </tr>
+      </table>
+    </div>
 {% endif %}
     <h2>Entries</h2>
     {% for entry in entries %}
