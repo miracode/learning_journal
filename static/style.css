@@ -2,10 +2,10 @@ body{
     color:#111;
     padding:0;
     margin:0;
+    background-color: rgb(153, 153, 153);
 }
 header{
     margin:0;
-    padding:0 0.75em;
     width:100%;
 }
 header:after{
@@ -30,18 +30,23 @@ header ul li{
     margin:0 0.25em 0 0;
 }
 header ul li a{
-    padding:0;
     display:inline-block;
+    padding: 0.25em;
+    background-color: white;
+    border-radius: 0.25em
 }
-main{padding:0 0.75em 1em;}
+main{padding:0 20% 0 20%;}
 main:after{
     content:"";
     display:table;
     clear:both;
 }
 main article{
-    margin-bottom:1em;
-    padding-left:0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.5em;
+    background-color: white;
+    border-radius: 0.2em;
+    padding: 0.5em;
 }
 main article h3{margin-top:0;}
 main article .entry_body{
@@ -67,4 +72,14 @@ main aside .field textarea{
 }
 main aside .control_row input{
     margin-left:16%;
+}
+.codehilite{
+    border-radius: 0.2em;
+    background-color: rgb(153, 153, 153);
+    padding: 0.001em 1em;
+}
+table .codehilitetable{
+    border-radius: 0.2em;
+    background-color: rgb(153, 153, 153);
+    padding: 0.001em 1em;
 }
