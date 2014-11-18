@@ -92,13 +92,24 @@ def write_entry(title, text):
     con = get_database_connection()
     cur = con.cursor()
     now = datetime.datetime.utcnow()
-    cur.execute(DB_ENTRY_INSERT, [title, text, now])
+    try:
+        title = unicode(title)
+        text = unicode(text)
+        print type(title), type(text)
+        cur.execute(DB_ENTRY_INSERT, [title, text, now])
+    except UnicodeDecodeError:
+        abort(500)
 
 
 def rewrite_entry(title, text, id):
     con = get_database_connection()
     cur = con.cursor()
-    cur.execute(DB_ENTRY_OVERWRITE, [title, text, id])
+    try:
+        title = unicode(title)
+        text = unicode(text)
+        cur.execute(DB_ENTRY_OVERWRITE, [title, text, id])
+    except UnicodeDecodeError:
+        abort(500)
 
 
 def get_all_entries():
@@ -106,7 +117,7 @@ def get_all_entries():
     con = get_database_connection()
     cur = con.cursor()
     cur.execute(DB_ENTRIES_LIST)
-    keys = ('id', 'title', 'text', 'created')
+    keys = (u'id', u'title', u'text', u'created')
     return [dict(zip(keys, row)) for row in cur.fetchall()]
 
 
@@ -124,13 +135,13 @@ def show_entries():
     for entry in entries:
         entry['text'] = markdown.markdown(entry['text'],
                                           extensions=['codehilite'])
-    shebang = "    #!/usr/bin/python\n        def main():\n            \
+    shebang = u"    #!/usr/bin/python\n    def main():\n        \
     return x"
     shebang_hl = markdown.markdown(shebang, extensions=['codehilite'])
-    shebang2 = "    #!python\n        def main():\n            \
+    shebang2 = u"    #!python\n    def main():\n        \
     return x"
     shebang_wo = markdown.markdown(shebang2, extensions=['codehilite'])
-    colons = "    :::python\n        def main():\n            \
+    colons = u"    :::python\n    def main():\n        \
     return x"
     colons_hl = markdown.markdown(colons, extensions=['codehilite'])
     return render_template('list_entries.html', entries=entries,
@@ -151,8 +162,8 @@ def add_entry():
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_entry(id):
     entries = get_all_entries()
-    title = "No Title"
-    text = "No Text"
+    title = u"No Title"
+    text = u"No Text"
     for entry in entries:
         if entry['id'] == int(id):
             title = entry['title']
