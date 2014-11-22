@@ -2,7 +2,7 @@ body{
     color:#111;
     padding:0;
     margin:0;
-    background-color: rgb(153, 153, 153);
+    /*background-color: rgb(153, 153, 153);*/
     font: 100%/1.5 'PT Sans Narrow', 'Arial Narrow', Helvetica, Arial, sans-serif;
 }
 header{
@@ -36,8 +36,8 @@ header ul li{
 header ul li a{
     display:inline-block;
     padding: 0.25em;
-    background-color: white;
-    border-radius: 0.25em
+    /*background-color: white;*/
+    /*border-radius: 0.25em*/
 }
 main{padding:0 20% 0 20%;}
 main:after{
@@ -48,7 +48,7 @@ main:after{
 main article{
     margin-bottom: 1em;
     padding-left: 0.5em;
-    background-color: white;
+    background-color: rgb(153, 153, 153);
     border-radius: 0.2em;
     padding: 0.5em;
 }
@@ -79,11 +79,11 @@ main aside .control_row input{
 }
 .codehilite{
     border-radius: 0.2em;
-    background-color: rgb(153, 153, 153);
+    background-color: white;
     padding: 0.001em 1em;
 }
 table .codehilitetable{
     border-radius: 0.2em;
-    background-color: rgb(153, 153, 153);
+    background-color: white;
     padding: 0.001em 1em;
 }
